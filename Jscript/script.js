@@ -19,7 +19,15 @@ const displayWord=(words)=>{
         words.forEach((word) =>{
             const card=document.createElement("div");
             card.innerHTML=`
-            <p>Cat</p>
+               <div class="bg-white py-10 px-5 text-center shadow-sm space-y-4 rounded-[12px]">
+                    <h1 class="font-bold text-2xl">${word.word}</h1>
+                    <p class="font-semibold">Meaning / pronunciation</p>
+                    <div class="font-medium font-bangla text-2xl">"${word.meaning} / ${word.pronunciation}"</div>
+                    <div class="flex justify-between items-center">
+                         <button class="bg-sky-100 w-10 h-10 rounded-[8px] hover:bg-sky-300"><i class="fa-solid fa-circle-info"></i></button>
+                         <button class="bg-sky-100 w-10 h-10 rounded-[8px] hover:bg-sky-300"><i class="fa-solid fa-volume-low"></i></button>
+                    </div>
+                 </div>
             `
           wordContainer.append(card);
         })
