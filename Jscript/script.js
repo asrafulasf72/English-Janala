@@ -1,3 +1,8 @@
+const createElement=(arr)=>{
+  const htmlElements=arr.map(el=> `<span class="btn bg-sky-200 rounded-[5px]">${el}</span>`);
+  return (htmlElements.join(" "));
+}
+
 const loadLesson=()=>{
     const url='https://openapi.programming-hero.com/api/levels/all';
     fetch(url) //promis of Response
@@ -24,6 +29,38 @@ const loadWord=(id)=>{
     });
 }
 
+const loadWordDetail = async(id)=>{
+      const url=`https://openapi.programming-hero.com/api/word/${id}`
+      const res = await fetch(url);
+      const details= await res.json();
+      displayWordDetail(details.data);
+};
+
+const displayWordDetail=(word)=>{
+       console.log(word)
+       const detailBox=document.getElementById("detail-container");
+       detailBox.innerHTML=`
+           <div>
+                 <h1 class="text-2xl font-bold"> ${word.word}(<i class="fa-solid fa-microphone-lines"></i> :${word.pronunciation})</h1>
+           </div>
+            <div>
+                      <h2 class="text-1xl font-medium">Meaning</h2>
+                      <p>${word.meaning}</p>
+           </div>
+            <div>
+                      <h2 class="text-xl font-semibold ">Example</h2>
+                      <p class="text-xl font-medium">${word.sentence}</p>
+            </div>
+
+             <div>
+                      <h2 class="text-xl font-medium space-y-1.5">Synonyms</h2>
+                    <div class="">${createElement(word.synonyms)}</div>
+                     
+              </div>
+       `
+       document.getElementById('my_modal_5').showModal();
+}
+
 const displayWord=(words)=>{
         const wordContainer=document.getElementById("word-container")
         wordContainer.innerHTML="";
@@ -47,7 +84,7 @@ const displayWord=(words)=>{
                     <p class="font-semibold">Meaning / pronunciation</p>
                     <div class="font-medium font-bangla text-2xl">"${word.meaning ? word.meaning : "অর্থ পাওয়া যায়নি"} / ${word.pronunciation ? word.pronunciation : "pronunciation পাওয়া যায়নি"}"</div>
                     <div class="flex justify-between items-center">
-                         <button class="bg-sky-100 w-10 h-10 rounded-[8px] hover:bg-sky-300"><i class="fa-solid fa-circle-info"></i></button>
+                         <button onclick="loadWordDetail(${word.id})" class="bg-sky-100 w-10 h-10 rounded-[8px] hover:bg-sky-300"><i class="fa-solid fa-circle-info"></i></button>
                          <button class="bg-sky-100 w-10 h-10 rounded-[8px] hover:bg-sky-300"><i class="fa-solid fa-volume-low"></i></button>
                     </div>
                  </div>
