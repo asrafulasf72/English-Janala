@@ -3,6 +3,16 @@ const createElement=(arr)=>{
   return (htmlElements.join(" "));
 }
 
+const manageSpinner=(status)=>{
+  if(status==true){
+    document.getElementById("spinner").classList.remove("invisible")
+    document.getElementById("word-container").classList.add("invisible")
+  }else{
+       document.getElementById("word-container").classList.remove("invisible")
+       document.getElementById("spinner").classList.add("invisible")
+  }
+}
+
 const loadLesson=()=>{
     const url='https://openapi.programming-hero.com/api/levels/all';
     fetch(url) //promis of Response
@@ -18,6 +28,8 @@ const removeBtn=()=>{
 }
 
 const loadWord=(id)=>{
+
+  manageSpinner(true);
     const url=`https://openapi.programming-hero.com/api/level/${id}`;
     fetch(url)
     .then((res)=>res.json())
@@ -65,7 +77,7 @@ const displayWord=(words)=>{
         const wordContainer=document.getElementById("word-container")
         wordContainer.innerHTML="";
 
-        if(words==0){
+        if(words.length==0){
             wordContainer.innerHTML=`
                      <div class="text-center col-span-full rounded space-y-4">
                      <img class="text-center mx-auto" src="./assets/alert-error.png" alt="">
@@ -73,7 +85,8 @@ const displayWord=(words)=>{
                      <h2 class="text-3xl font-bold font-bangla">নেক্সট <span>Lesson</span> এ যান।</h2>
                 </div>
             `
-            return
+            manageSpinner(false)
+            return;
         }
 
         words.forEach((word) =>{
@@ -90,7 +103,8 @@ const displayWord=(words)=>{
                  </div>
             `
           wordContainer.append(card);
-        })
+        });
+        manageSpinner(false);
 }
 
 
