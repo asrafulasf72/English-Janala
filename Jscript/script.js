@@ -123,5 +123,20 @@ const displaylesson=(lessons)=>{
           levelContainer.append(card)
        }
 }
+
+  document.getElementById('search-btn').
+        addEventListener('click', ()=>{
+          removeBtn();
+          const searchItem=document.getElementById('search-item');
+              const searchValue=searchItem.value.trim().toLowerCase();
+              const url='https://openapi.programming-hero.com/api/words/all'
+              fetch(url)
+              .then(res=>res.json())
+              .then(data=> {
+                const allWord=data.data;
+                const filteredWord=allWord.filter((word)=>word.word.toLowerCase().includes(searchValue));
+                displayWord(filteredWord);
+              })
+        })
 loadLesson();
 
